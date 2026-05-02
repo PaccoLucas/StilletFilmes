@@ -2,15 +2,15 @@
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Stillet Filmes</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --primary: #00c6ff;
             --secondary: #0072ff;
             --dark-bg: #050b14;
-            --glass-bg: rgba(255, 255, 255, 0.05);
+            --glass-bg: rgba(20, 30, 50, 0.4);
             --glass-border: rgba(255, 255, 255, 0.1);
         }
 
@@ -29,9 +29,9 @@
             color: white;
             display: flex;
             justify-content: center;
-            align-items: center;
-            min-height: 100vh;
+            min-height: 100dvh;
             overflow-x: hidden;
+            padding: 15px 0; /* Espaço no topo e fundo do site */
         }
 
         @keyframes gradientBG {
@@ -40,25 +40,26 @@
             100% { background-position: 0% 50%; }
         }
 
-        /* CONTAINER GLASSMORPHISM */
+        /* CONTAINER PRINCIPAL */
         .container {
             width: 100%;
             max-width: 420px;
-            padding: 30px 20px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            gap: 24px; /* Espaço entre as seções */
+            padding: 25px 20px;
             background: var(--glass-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid var(--glass-border);
-            border-radius: 30px;
+            border-radius: 24px;
             box-shadow: 0 25px 45px rgba(0, 0, 0, 0.5);
-            margin: 20px;
-            z-index: 10;
+            margin: auto;
         }
 
         /* ANIMAÇÃO DE ENTRADA */
         @keyframes smoothIn {
-            0% { opacity: 0; transform: translateY(30px); }
+            0% { opacity: 0; transform: translateY(20px); }
             100% { opacity: 1; transform: translateY(0); }
         }
 
@@ -68,45 +69,97 @@
         }
 
         /* HEADER & LOGO */
+        .header-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
         .logo {
-            width: 110px;
-            height: 110px;
+            width: 85px;
+            height: 85px;
             border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--glass-border);
-            box-shadow: 0 0 25px rgba(0, 198, 255, 0.4);
-            transition: transform 0.3s ease;
-        }
-        
-        .logo:hover {
-            transform: scale(1.05);
+            border: 2px solid var(--glass-border);
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.3);
+            margin-bottom: 12px;
         }
 
         h1 {
-            font-size: 26px;
+            font-size: 24px;
             font-weight: 700;
-            margin: 15px 0 25px;
+            margin-bottom: 8px;
             background: linear-gradient(to right, #fff, var(--primary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: 1px;
+            letter-spacing: 0.5px;
         }
 
-        /* CARROSSEL */
+        /* TAGS E STATUS */
+        .business-info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+        }
+
+        .tags {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 11px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 500;
+            color: #ddd;
+        }
+
+        .status-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #bbb;
+            font-weight: 500;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #00e676;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #00e676;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0.7); }
+            70% { box-shadow: 0 0 0 6px rgba(0, 230, 118, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(0, 230, 118, 0); }
+        }
+
+        /* CARROSSEL FLEXÍVEL */
         .carousel-wrapper {
             position: relative;
             width: 100%;
-            margin-bottom: 30px;
-            border-radius: 20px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+            height: 350px; /* Altura fixa para manter a proporção na primeira dobra da tela */
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             overflow: hidden;
-            transition: transform 0.1s ease-out;
         }
 
         .slides {
-            position: relative;
+            position: absolute;
+            inset: 0;
             width: 100%;
-            aspect-ratio: 4/5;
+            height: 100%;
             background: #000;
         }
 
@@ -117,71 +170,57 @@
             height: 100%;
             object-fit: cover;
             opacity: 0;
-            transform: scale(1.05);
-            transition: opacity 0.6s ease, transform 0.6s ease;
+            transition: opacity 0.5s ease;
         }
 
-        .slide.active {
-            opacity: 1;
-            transform: scale(1);
-        }
+        .slide.active { opacity: 1; }
 
-        /* BOTÕES DE NAVEGAÇÃO */
         .nav-btn {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            width: 40px;
-            height: 40px;
+            width: 36px;
+            height: 36px;
             border: none;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(5px);
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
             color: white;
-            font-size: 16px;
+            font-size: 14px;
             cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            transition: 0.3s ease;
             z-index: 10;
         }
 
-        .nav-btn:hover {
-            background: var(--primary);
-            box-shadow: 0 0 15px var(--primary);
-        }
+        .nav-btn:hover { background: var(--primary); }
+        .prev { left: 8px; }
+        .next { right: 8px; }
 
-        .prev { left: 10px; }
-        .next { right: 10px; }
-
-        /* INDICADORES (DOTS) */
         .indicators {
             position: absolute;
-            bottom: 15px;
+            bottom: 12px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
-            gap: 8px;
+            gap: 6px;
             z-index: 10;
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
             background: rgba(255, 255, 255, 0.4);
-            cursor: pointer;
-            transition: all 0.3s ease;
+            transition: 0.3s ease;
         }
 
         .dot.active {
             background: var(--primary);
-            width: 20px;
-            border-radius: 10px;
+            width: 16px;
+            border-radius: 8px;
         }
 
-        /* BOTÃO PRINCIPAL (CTA) */
+        /* BOTÃO PRINCIPAL */
         .btn-cta {
             position: relative;
             width: 100%;
@@ -192,49 +231,147 @@
             color: white;
             font-size: 16px;
             font-weight: 600;
-            letter-spacing: 0.5px;
             cursor: pointer;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 198, 255, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(0, 198, 255, 0.3);
             display: flex;
             justify-content: center;
             align-items: center;
             gap: 10px;
+            transition: 0.2s ease;
         }
 
-        .btn-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px rgba(0, 198, 255, 0.5);
-        }
+        .btn-cta:active { transform: scale(0.97); }
 
-        .btn-cta:active {
-            transform: translateY(2px);
-        }
-
-        /* SPINNER DENTRO DO BOTÃO */
         .btn-spinner {
             display: none;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,0.3);
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.3);
             border-radius: 50%;
             border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
+            animation: spin 0.8s linear infinite;
         }
 
-        @keyframes spin {
-            to { transform: rotate(360deg); }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* TÍTULOS DE SEÇÃO */
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 12px;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        /* RESPONSIVIDADE */
-        @media(max-width: 450px) {
-            .container {
-                margin: 10px;
-                padding: 25px 15px;
-                border-radius: 20px;
-            }
-            h1 { font-size: 22px; }
+        /* AVALIAÇÕES (REVIEWS) */
+        .reviews-section {
+            width: 100%;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 20px;
+        }
+
+        .reviews-scroll {
+            display: flex;
+            overflow-x: auto;
+            gap: 15px;
+            padding-bottom: 10px;
+            scroll-snap-type: x mandatory;
+            -ms-overflow-style: none; /* IE and Edge */
+            scrollbar-width: none; /* Firefox */
+        }
+
+        .reviews-scroll::-webkit-scrollbar { display: none; } /* Chrome, Safari */
+
+        .review-card {
+            min-width: 260px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 16px;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stars {
+            color: #ffd700;
+            font-size: 14px;
+            letter-spacing: 2px;
+        }
+
+        .review-text {
+            font-size: 13px;
+            color: #eee;
+            font-style: italic;
+            line-height: 1.5;
+        }
+
+        .review-author {
+            font-size: 12px;
+            color: #aaa;
+            font-weight: 600;
+            text-align: right;
+        }
+
+        /* LOCALIZAÇÃO (MAPA) */
+        .location-section {
+            width: 100%;
+            border-top: 1px solid var(--glass-border);
+            padding-top: 20px;
+        }
+
+        .address-text {
+            font-size: 13px;
+            color: #ddd;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .address-text strong { color: #fff; }
+
+        .map-container {
+            width: 100%;
+            height: 200px;
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        .btn-maps {
+            display: inline-block;
+            margin-top: 12px;
+            padding: 10px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--glass-border);
+            color: white;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+            border-radius: 12px;
+            text-align: center;
+            width: 100%;
+            transition: 0.3s;
+        }
+
+        .btn-maps:active { background: rgba(255, 255, 255, 0.2); }
+
+        /* RESPONSIVIDADE PARA TELAS MUITO PEQUENAS */
+        @media(max-height: 700px) {
+            .carousel-wrapper { height: 280px; }
+            .logo { width: 70px; height: 70px; }
+            h1 { font-size: 20px; }
+            .container { padding: 15px; }
         }
     </style>
 </head>
@@ -242,35 +379,87 @@
 <body>
 
     <main class="container">
+        
         <!-- CABEÇALHO -->
-        <header>
+        <header class="header-section">
             <img src="images/654931150_17869466130588777_4411501239579348033_n.jpg" alt="Logo Stillet Filmes" class="logo reveal" style="animation-delay: 0.1s;">
             <h1 class="reveal" style="animation-delay: 0.2s;">Stillet Filmes</h1>
+            
+            <div class="business-info reveal" style="animation-delay: 0.3s;">
+                <div class="tags">
+                    <span class="tag">Películas</span>
+                    <span class="tag">Estética Automotiva</span>
+                    <span class="tag">Projetos</span>
+                </div>
+                <div class="status-badge">
+                    <div class="status-dot"></div> Aberto para agendamentos
+                </div>
+            </div>
         </header>
 
         <!-- CARROSSEL -->
-        <section class="carousel-wrapper reveal" id="carousel" style="animation-delay: 0.3s;">
+        <section class="carousel-wrapper reveal" style="animation-delay: 0.4s;">
             <div class="slides">
-                <!-- Imagens mantidas exatamente com o mesmo caminho -->
-                <img src="images/WhatsApp Image 2026-05-02 at 15.26.27 (1).jpeg" alt="Filme 1" class="slide active">
-                <img src="images/WhatsApp Image 2026-05-02 at 15.26.27.jpeg" alt="Filme 2" class="slide">
-                <img src="images/WhatsApp Image 2026-05-02 at 15.26.28 (1).jpeg" alt="Filme 3" class="slide">
-                <img src="images/WhatsApp Image 2026-05-02 at 15.26.28.jpeg" alt="Filme 4" class="slide">
+                <img src="images/WhatsApp Image 2026-05-02 at 15.26.27 (1).jpeg" alt="Projeto 1" class="slide active">
+                <img src="images/WhatsApp Image 2026-05-02 at 15.26.27.jpeg" alt="Projeto 2" class="slide">
+                <img src="images/WhatsApp Image 2026-05-02 at 15.26.28 (1).jpeg" alt="Projeto 3" class="slide">
+                <img src="images/WhatsApp Image 2026-05-02 at 15.26.28.jpeg" alt="Projeto 4" class="slide">
             </div>
-
-            <!-- Controles do Carrossel -->
-            <button class="nav-btn prev" onclick="changeSlide(-1)" aria-label="Anterior">❮</button>
-            <button class="nav-btn next" onclick="changeSlide(1)" aria-label="Próximo">❯</button>
-
-            <!-- Pontos Indicadores -->
+            <button class="nav-btn prev" onclick="changeSlide(-1)">❮</button>
+            <button class="nav-btn next" onclick="changeSlide(1)">❯</button>
             <div class="indicators" id="indicators"></div>
         </section>
 
-        <!-- BOTÃO DE ATENDIMENTO -->
-        <button id="actionBtn" class="btn-cta reveal" style="animation-delay: 0.4s;" onclick="start()">
+        <!-- BOTÃO PRINCIPAL -->
+        <button id="actionBtn" class="btn-cta reveal" style="animation-delay: 0.5s;" onclick="start()">
             <span id="btnText">Iniciar atendimento</span>
             <div class="btn-spinner" id="btnSpinner"></div>
         </button>
+
+        <!-- AVALIAÇÕES DOS CLIENTES -->
+        <section class="reviews-section reveal" style="animation-delay: 0.6s;">
+            <h2 class="section-title">O que dizem nossos clientes</h2>
+            <div class="reviews-scroll">
+                
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Trabalho impecável na minha picape! Acabamento perfeito e a película de retenção de calor realmente funciona. Super recomendo."</p>
+                    <p class="review-author">- Carlos Eduardo</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Melhor estética automotiva de SBC. O atendimento foi super rápido e o resultado final do projeto superou minhas expectativas!"</p>
+                    <p class="review-author">- Mariana Costa</p>
+                </div>
+
+                <div class="review-card">
+                    <div class="stars">★★★★★</div>
+                    <p class="review-text">"Qualidade premium! Deixei meu carro pela manhã e a tarde já estava pronto, zero bolhas e o visual ficou muito agressivo."</p>
+                    <p class="review-author">- Thiago Silva</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- LOCALIZAÇÃO E MAPAS -->
+        <section class="location-section reveal" style="animation-delay: 0.7s;">
+            <h2 class="section-title">Nossa Localização</h2>
+            <p class="address-text">
+                <strong>Av. Senador Vergueiro, 1230</strong><br>
+                Centro, São Bernardo do Campo - SP
+            </p>
+            
+            <div class="map-container">
+                <!-- Iframe do Google Maps configurado para o endereço exato -->
+                <iframe src="https://maps.google.com/maps?q=Av.%20Senador%20Vergueiro,%201230%20-%20S%C3%A3o%20Bernardo%20do%20Campo&t=&z=16&ie=UTF8&iwloc=&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+
+            <a href="https://maps.google.com/?q=Av.+Senador+Vergueiro,+1230+-+S%C3%A3o+Bernardo+do+Campo" target="_blank" class="btn-maps">
+                📍 Abrir Rota no Google Maps
+            </a>
+        </section>
+
     </main>
 
     <script>
@@ -280,12 +469,10 @@
             const btnText = document.getElementById("btnText");
             const btnSpinner = document.getElementById("btnSpinner");
 
-            // Muda o estado do botão
             btn.style.pointerEvents = "none";
-            btnText.innerText = "Conectando...";
+            btnText.innerText = "Preparando atendimento...";
             btnSpinner.style.display = "block";
 
-            // Aguarda 1.8s e redireciona (link mantido)
             setTimeout(() => {
                 window.location.href = "https://funilpro.com.br/funil.php?id=3XJ9Vm";
             }, 1800);
@@ -297,7 +484,6 @@
         const indicatorsContainer = document.getElementById("indicators");
         let autoPlayInterval;
 
-        // Criar os pontos (dots) dinamicamente com base na quantidade de imagens
         slides.forEach((_, index) => {
             const dot = document.createElement("div");
             dot.classList.add("dot");
@@ -331,11 +517,10 @@
             resetAutoPlay();
         }
 
-        /* AUTO PLAY */
         function startAutoPlay() {
             autoPlayInterval = setInterval(() => {
                 changeSlide(1);
-            }, 4000);
+            }, 3500);
         }
 
         function resetAutoPlay() {
@@ -344,23 +529,6 @@
         }
 
         startAutoPlay();
-
-        /* PARALLAX INTELIGENTE (Apenas para Desktop) */
-        const carousel = document.getElementById("carousel");
-        
-        // Só aplica parallax se o dispositivo tiver mouse (evita bugs em celular)
-        if (window.matchMedia("(pointer: fine)").matches) {
-            document.addEventListener("mousemove", (e) => {
-                const xAxis = (window.innerWidth / 2 - e.pageX) / 40;
-                const yAxis = (window.innerHeight / 2 - e.pageY) / 40;
-                carousel.style.transform = `perspective(1000px) rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
-            });
-
-            // Reseta o parallax se o mouse sair da tela
-            document.addEventListener("mouseleave", () => {
-                carousel.style.transform = `perspective(1000px) rotateY(0deg) rotateX(0deg)`;
-            });
-        }
     </script>
 </body>
 </html>
